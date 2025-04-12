@@ -1,11 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-// ✅ Import both controllers correctly
-const { registerUser, loginUser } = require('../controllers/userController');
+const {
+  registerUser,
+  loginUser,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser
+} = require('../controllers/userController');
 
-// ✅ Define the routes
+const { verifyToken, authorizeRoles } = require('../middleware/authorMiddleware');
+
+// ✅ Public routes
 router.post('/register', registerUser);
-router.post('/login', loginUser); // <- this will break if loginUser is undefined
+router.post('/login', loginUser);
+
+// ✅ Protected routes
+router.get('/', verifyToken, authorizeRoles('admin'), getAllUsers);
+router.get('/me', verifyToken, (req, res) => res.status(200).json({ user: req.user }));
+router.get('/:id', verifyToken, authorizeRoles('admin', 'user', 'organizer'), getUser);
+router.put('/:id', verifyToken, authorizeRoles('admin', 'user', 'organizer'), updateUser);
+router.delete('/:id', verifyToken, authorizeRoles('admin', 'organizer'), deleteUser);
 
 module.exports = router;
