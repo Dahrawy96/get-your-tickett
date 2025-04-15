@@ -1,2 +1,0 @@
-# get-your-ticket
-This is a full-stack web application for booking event tickets. Users can browse, search, and purchase tickets for events like concerts, sports games, and theater shows. The system includes features like event listings, ticket booking, and an admin panel for managing events.
