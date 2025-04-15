@@ -71,7 +71,6 @@ const cancelBooking = async (req, res) => {
 // 📋 View My Bookings
 const getMyBookings = async (req, res) => {
   try {
-    console.log("hi")
     const bookings = await Booking.find({ user: req.user.id }).populate({
       path: 'event',
       select: 'title date location ticketPrice status',
@@ -85,7 +84,6 @@ const getMyBookings = async (req, res) => {
 
 // 📄 Get Booking by ID
 const getBookingById = async (req, res) => {
-  console.log("hi")
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
