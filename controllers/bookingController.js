@@ -2,7 +2,11 @@ const { validationResult } = require('express-validator');
 const Booking = require('../models/bookingModel');
 const Event = require('../models/Event');
 
+<<<<<<< HEAD
 // 🎟️ Book Tickets
+=======
+// Book Tickets
+>>>>>>> dahrawy
 const bookTickets = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -40,7 +44,11 @@ const bookTickets = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ❌ Cancel Booking
+=======
+// Cancel Booking
+>>>>>>> dahrawy
 const cancelBooking = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -68,7 +76,11 @@ const cancelBooking = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // 📋 View My Bookings
+=======
+//  View My Bookings
+>>>>>>> dahrawy
 const getMyBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({ user: req.user.id }).populate({
@@ -81,9 +93,43 @@ const getMyBookings = async (req, res) => {
     res.status(500).json({ message: 'Error retrieving bookings', error: error.message });
   }
 };
+<<<<<<< HEAD
+=======
+// Get booking details by ID (for the logged-in user)
+const getBookingById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+  const bookingId = req.params.id;
+
+  try {
+    const booking = await Booking.findById(bookingId).populate('event');
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    // Ensure only the owner can view the booking
+    if (booking.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Unauthorized access to this booking' });
+    }
+
+    res.status(200).json({ booking });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching booking details', error: error.message });
+  }
+};
+
+>>>>>>> dahrawy
 
 module.exports = {
   bookTickets,
   cancelBooking,
   getMyBookings,
+<<<<<<< HEAD
 };
+=======
+  getBookingById 
+};
+
+>>>>>>> dahrawy

@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 const { validationResult } = require('express-validator');
 const Event = require('../models/Event');
 const Booking = require('../models/bookingModel');
 
 // ✅ 1. View Approved Events (Public)
+=======
+const Event = require('../models/Event');
+const Booking = require('../models/bookingModel'); // For analytics
+const { validationResult } = require('express-validator');
+
+//  View Approved Events (Public)
+>>>>>>> dahrawy
 exports.getApprovedEvents = async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' });
@@ -12,10 +20,19 @@ exports.getApprovedEvents = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ✅ 2. Create Event (Organizer only)
 exports.createEvent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+=======
+// Create Event (Organizer)
+exports.createEvent = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+>>>>>>> dahrawy
 
   const { title, description, date, location, category, ticketPrice, totalTickets } = req.body;
 
@@ -40,10 +57,19 @@ exports.createEvent = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ✅ 3. Update Event (Organizer only)
 exports.updateEvent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+=======
+//  Update Event (Organizer)
+exports.updateEvent = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+>>>>>>> dahrawy
 
   try {
     const event = await Event.findById(req.params.id);
@@ -53,8 +79,32 @@ exports.updateEvent = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized to update this event' });
     }
 
+<<<<<<< HEAD
     const allowedUpdates = (({ date, location, totalTickets }) => ({ date, location, totalTickets }))(req.body);
     const updatedEvent = await Event.findByIdAndUpdate(req.params.id, allowedUpdates, { new: true });
+=======
+    const allowedUpdates = (({
+      date,
+      location,
+      totalTickets,
+      ticketPrice,
+      category,
+      remainingTickets
+    }) => ({
+      date,
+      location,
+      totalTickets,
+      ticketPrice,
+      category,
+      remainingTickets
+    }))(req.body);
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.id,
+      allowedUpdates,
+      { new: true }
+    );
+>>>>>>> dahrawy
 
     res.status(200).json({ message: 'Event updated', event: updatedEvent });
   } catch (err) {
@@ -62,7 +112,12 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ✅ 4. Delete Event (Organizer only)
+=======
+
+// Delete Event (Organizer)
+>>>>>>> dahrawy
 exports.deleteEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -79,7 +134,11 @@ exports.deleteEvent = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ✅ 5. Organizer Analytics
+=======
+//  Analytics (Organizer)
+>>>>>>> dahrawy
 exports.getEventAnalytics = async (req, res) => {
   try {
     const events = await Event.find({ organizer: req.user.id });
@@ -104,14 +163,22 @@ exports.getEventAnalytics = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // ✅ 6. Admin Approve or Decline Event
+=======
+//  Admin Approve/Decline Event
+>>>>>>> dahrawy
 exports.updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
     const validStatuses = ['approved', 'declined'];
 
     if (!validStatuses.includes(status)) {
+<<<<<<< HEAD
       return res.status(400).json({ message: 'Invalid status value' });
+=======
+      return res.status(400).json({ message: 'Invalid status' });
+>>>>>>> dahrawy
     }
 
     const event = await Event.findByIdAndUpdate(
@@ -127,3 +194,37 @@ exports.updateStatus = async (req, res) => {
     res.status(500).json({ message: 'Error updating event status', error: err.message });
   }
 };
+<<<<<<< HEAD
+=======
+
+exports.getMyEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ organizer: req.user.id });
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching your events", error: err.message });
+  }
+};
+
+
+exports.getEvents = async (req, res) => {
+  try {
+    const events = await Event.find(); // Return all events
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching all events", error: err.message });
+  }
+};
+
+exports.getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ message: "Event not found" });
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching event", error: err.message });
+  }
+};
+
+
+>>>>>>> dahrawy

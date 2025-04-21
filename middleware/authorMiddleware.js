@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.JWT_SECRET;
 
+<<<<<<< HEAD
 // 🔐 Header-based token verification (Bearer)
+=======
+// Header-based token verification (Bearer)
+>>>>>>> dahrawy
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -20,7 +24,11 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
 // 👤 Role-based access control
+=======
+// Role-based access control
+>>>>>>> dahrawy
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
@@ -30,4 +38,8 @@ const authorizeRoles = (...roles) => {
   };
 };
 
+<<<<<<< HEAD
 module.exports = { verifyToken, authorizeRoles };
+=======
+module.exports = { verifyToken, authorizeRoles };
+>>>>>>> dahrawy
