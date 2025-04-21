@@ -2,11 +2,7 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-<<<<<<< HEAD
-// 🔐 Register a new user
-=======
 // Register a new user
->>>>>>> dahrawy
 const registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -47,11 +43,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// 🔑 Login user
-=======
 // Login user
->>>>>>> dahrawy
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -83,11 +75,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// 🔁 Forget Password
-=======
 //  Forget Password
->>>>>>> dahrawy
 const forgetPassword = async (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -108,12 +96,7 @@ const forgetPassword = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
-<<<<<<< HEAD
-
-// 👁️ Get all users (admin only)
-=======
 // Get all users (admin only)
->>>>>>> dahrawy
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select('-password');
@@ -123,11 +106,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// 👤 Get single user
-=======
 // Get single user
->>>>>>> dahrawy
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -139,17 +118,10 @@ const getUser = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// ✏️ Update user
-const updateUser = async (req, res) => {
-  try {
-    const userId = req.params.id;
-=======
 //  Update user
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id || req.user.id;
->>>>>>> dahrawy
     const currentUser = req.user;
 
     if (currentUser.id !== userId && currentUser.role !== 'admin') {
@@ -171,11 +143,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// ❌ Delete user
-=======
 // Delete user
->>>>>>> dahrawy
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
