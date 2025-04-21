@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// 🔐 Register a new user
+// Register a new user
 const registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// 🔑 Login user
+// Login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -75,7 +75,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// 🔁 Forget Password
+//  Forget Password
 const forgetPassword = async (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -96,8 +96,7 @@ const forgetPassword = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
-
-// 👁️ Get all users (admin only)
+// Get all users (admin only)
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select('-password');
@@ -107,7 +106,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// 👤 Get single user
+// Get single user
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -119,10 +118,10 @@ const getUser = async (req, res) => {
   }
 };
 
-// ✏️ Update user
+//  Update user
 const updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.params.id || req.user.id;
     const currentUser = req.user;
 
     if (currentUser.id !== userId && currentUser.role !== 'admin') {
@@ -144,7 +143,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-// ❌ Delete user
+// Delete user
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);

@@ -2,7 +2,7 @@ const Event = require('../models/Event');
 const Booking = require('../models/bookingModel'); // For analytics
 const { validationResult } = require('express-validator');
 
-// 1. View Approved Events (Public)
+//  View Approved Events (Public)
 exports.getApprovedEvents = async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' });
@@ -12,7 +12,7 @@ exports.getApprovedEvents = async (req, res) => {
   }
 };
 
-// 2. Create Event (Organizer only)
+// Create Event (Organizer)
 exports.createEvent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -42,7 +42,7 @@ exports.createEvent = async (req, res) => {
   }
 };
 
-// 3. Update Event (Organizer only)
+//  Update Event (Organizer)
 exports.updateEvent = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -57,8 +57,27 @@ exports.updateEvent = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized to update this event' });
     }
 
-    const allowedUpdates = (({ date, location, totalTickets }) => ({ date, location, totalTickets }))(req.body);
-    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, allowedUpdates, { new: true });
+    const allowedUpdates = (({
+      date,
+      location,
+      totalTickets,
+      ticketPrice,
+      category,
+      remainingTickets
+    }) => ({
+      date,
+      location,
+      totalTickets,
+      ticketPrice,
+      category,
+      remainingTickets
+    }))(req.body);
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.id,
+      allowedUpdates,
+      { new: true }
+    );
 
     res.status(200).json({ message: 'Event updated', event: updatedEvent });
   } catch (err) {
@@ -66,7 +85,8 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-// 4. Delete Event (Organizer only)
+
+// Delete Event (Organizer)
 exports.deleteEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -76,14 +96,14 @@ exports.deleteEvent = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized to delete this event' });
     }
 
-    await event.remove();
+    await event.deleteOne();
     res.status(200).json({ message: 'Event deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Error deleting event', error: err.message });
   }
 };
 
-// 5. Analytics (Organizer only)
+//  Analytics (Organizer)
 exports.getEventAnalytics = async (req, res) => {
   try {
     const events = await Event.find({ organizer: req.user.id });
@@ -108,7 +128,7 @@ exports.getEventAnalytics = async (req, res) => {
   }
 };
 
-// 6. Admin Approve/Decline Event
+//  Admin Approve/Decline Event
 exports.updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -131,3 +151,34 @@ exports.updateStatus = async (req, res) => {
     res.status(500).json({ message: 'Error updating event status', error: err.message });
   }
 };
+
+exports.getMyEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ organizer: req.user.id });
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching your events", error: err.message });
+  }
+};
+
+
+exports.getEvents = async (req, res) => {
+  try {
+    const events = await Event.find(); // Return all events
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching all events", error: err.message });
+  }
+};
+
+exports.getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ message: "Event not found" });
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching event", error: err.message });
+  }
+};
+
+

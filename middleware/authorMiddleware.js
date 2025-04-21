@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.JWT_SECRET;
 
-// 🔐 Header-based token verification (Bearer)
+// Header-based token verification (Bearer)
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// 👤 Role-based access control
+// Role-based access control
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

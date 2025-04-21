@@ -5,16 +5,17 @@ const router = express.Router();
 const {
   bookTickets,
   cancelBooking,
-  getMyBookings
+  getMyBookings,
+  getBookingById
 } = require('../controllers/bookingController');
 
 const { verifyToken, authorizeRoles } = require('../middleware/authorMiddleware');
-const authenticationMiddleware = require('../middleware/authenticationMiddleware'); // 🍪
-const authorizationMiddleware = require('../middleware/authorizationMiddleware');   // 🍪
+const authenticationMiddleware = require('../middleware/authenticationMiddleware');
+const authorizationMiddleware = require('../middleware/authorizationMiddleware');
 
-// 🟢 Book tickets (validated)
+// Create a new booking (Standard user )
 router.post(
-  '/',
+  '/bookings',
   verifyToken,
   authorizeRoles('user'),
   authenticationMiddleware,
@@ -27,9 +28,9 @@ router.post(
   bookTickets
 );
 
-// 🔵 View own bookings
+// Get current user's bookings (Standard user )
 router.get(
-  '/my',
+  '/users/bookings',
   verifyToken,
   authorizeRoles('user'),
   authenticationMiddleware,
@@ -37,9 +38,9 @@ router.get(
   getMyBookings
 );
 
-// 🔴 Cancel a booking
+// Cancel a booking by ID (Standard user )
 router.delete(
-  '/:bookingId',
+  '/bookings/:bookingId',
   verifyToken,
   authorizeRoles('user'),
   authenticationMiddleware,
@@ -48,6 +49,19 @@ router.delete(
     param('bookingId').isMongoId().withMessage('Invalid booking ID')
   ],
   cancelBooking
+);
+
+// Get a single booking by ID (Standard user )
+router.get(
+  '/bookings/:id',
+  verifyToken,
+  authorizeRoles('user'),
+  authenticationMiddleware,
+  authorizationMiddleware(['user']),
+  [
+    param('id').isMongoId().withMessage('Invalid booking ID')
+  ],
+  getBookingById
 );
 
 module.exports = router;

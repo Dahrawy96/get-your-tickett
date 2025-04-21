@@ -3,19 +3,21 @@ const router = express.Router();
 const { body } = require('express-validator');
 
 const {
+  getEvents,
   getApprovedEvents,
+  getEventById,
+  getMyEvents,
   createEvent,
   updateEvent,
   deleteEvent,
   getEventAnalytics,
   updateStatus
-} = require('../controllers/eventController');
+} = require("../controllers/eventController");
 
 const { verifyToken, authorizeRoles } = require('../middleware/authorMiddleware');
-const authenticationMiddleware = require('../middleware/authenticationMiddleware'); // 🍪 Cookie-based
-const authorizationMiddleware = require('../middleware/authorizationMiddleware');   // 🍪 Cookie-based
+const authenticationMiddleware = require('../middleware/authenticationMiddleware');
+const authorizationMiddleware = require('../middleware/authorizationMiddleware');
 
-// ✅ Validation middleware for event creation & update
 const validateEventFields = [
   body('title').notEmpty().withMessage('Title is required'),
   body('description').notEmpty().withMessage('Description is required'),
@@ -26,12 +28,12 @@ const validateEventFields = [
   body('totalTickets').isInt({ gt: 0 }).withMessage('Total tickets must be a positive integer'),
 ];
 
-// ✅ Public route - Anyone can view approved events
-router.get('/', getApprovedEvents);
+// View all approved events (Public)
+router.get('/events', getApprovedEvents);
 
-// 🔐 Organizer-only routes
+// Create new event (Organizer )
 router.post(
-  '/',
+  '/events',
   validateEventFields,
   verifyToken,
   authorizeRoles('organizer'),
@@ -40,8 +42,9 @@ router.post(
   createEvent
 );
 
+// Update an event by ID (Organizer )
 router.put(
-  '/:id',
+  '/events/:id',
   validateEventFields,
   verifyToken,
   authorizeRoles('organizer'),
@@ -50,8 +53,9 @@ router.put(
   updateEvent
 );
 
+// Delete an event by ID (Organizer )
 router.delete(
-  '/:id',
+  '/events/:id',
   verifyToken,
   authorizeRoles('organizer'),
   authenticationMiddleware,
@@ -59,8 +63,9 @@ router.delete(
   deleteEvent
 );
 
+// View analytics for organizer's events
 router.get(
-  '/analytics/me',
+  '/users/events/analytics',
   verifyToken,
   authorizeRoles('organizer'),
   authenticationMiddleware,
@@ -68,7 +73,7 @@ router.get(
   getEventAnalytics
 );
 
-// 🔐 Admin-only route to approve/decline events
+// Approve or decline event (Admin )
 router.patch(
   '/:id/status',
   verifyToken,
@@ -77,5 +82,24 @@ router.patch(
   authorizationMiddleware(['admin']),
   updateStatus
 );
+
+// View events created by currently logged-in organizer
+router.get(
+  "/users/events",
+  authenticationMiddleware,
+  authorizationMiddleware(["organizer"]),
+  getMyEvents
+);
+
+// View all events including pending/declined/approved (Admin )
+router.get(
+  "/events/all",
+  authenticationMiddleware,
+  authorizationMiddleware(["admin"]),
+  getEvents
+);
+
+// Get a single event by ID (Public)
+router.get("/events/:id", getEventById);
 
 module.exports = router;
