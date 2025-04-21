@@ -122,8 +122,7 @@ const getUser = async (req, res) => {
 // ✏️ Update user
 const updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const currentUser = req.user;
+       const userId = req.params.id|| req.user.id; 
 
     if (currentUser.id !== userId && currentUser.role !== 'admin') {
       return res.status(403).json({ message: 'Unauthorized to update this user' });
