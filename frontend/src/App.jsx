@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WelcomePage from './WelcomePage';
-import SignupPage from './SignupPage';
+import EventsPage from './EventsPage';  // Import the new page
 import LoginPage from './LoginPage';
-import UserProfile from './UserProfile'; // import the dashboard
+import SignupPage from './SignupPage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/events" element={<EventsPage />} />   {/* New route */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/userprofile" element={<UserProfile />} /> {/* new route */}
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   );
