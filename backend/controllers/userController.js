@@ -107,16 +107,18 @@ const getAllUsers = async (req, res) => {
 };
 
 // Get single user
-const getUser = async (req, res) => {
+const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password');
+    // Use the user ID from the JWT token, set by verifyToken middleware
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    res.status(200).json(user);
+    res.status(200).json({ user });  // Return user inside an object as { user: {...} }
   } catch (err) {
-    res.status(500).json({ message: 'Error retrieving user', error: err.message });
+    res.status(500).json({ message: 'Error retrieving user profile', error: err.message });
   }
 };
+
 
 //  Update user
 const updateUser = async (req, res) => {

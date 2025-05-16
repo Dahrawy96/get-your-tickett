@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from './api'; // Axios instance with correct baseURL
 import ticketphoto from './assets/ticketphoto.jpeg';
+import { AuthContext } from './AuthContext';  // <-- Import AuthContext
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,8 @@ export default function LoginPage() {
   const [message, setMessage] = useState('');
   const [showForgot, setShowForgot] = useState(false);
   const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);  // <-- use login from AuthContext
 
   // Login input handler
   const handleChange = (e) => {
@@ -46,8 +49,9 @@ export default function LoginPage() {
 
       if (response.status === 200) {
         setMessage('Login successful! Redirecting...');
-        localStorage.setItem('token', response.data.token);
-        navigate('/userprofile');
+        // Use AuthContext login to save user info & token globally
+        login(response.data.user, response.data.token);
+        navigate('/userprofile');  // redirect after login
       }
     } catch (error) {
       setMessage(error.response?.data?.message || 'Login failed. Please check your credentials.');

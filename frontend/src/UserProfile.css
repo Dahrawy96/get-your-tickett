@@ -1,0 +1,118 @@
+/* src/UserProfile.css */
+
+.profile-page-container {
+  display: flex;
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff59d; /* brighter yellow */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  overflow: hidden;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.profile-sidebar {
+  flex: 1;
+  padding: 2rem;
+  background-color: rgba(255 255 255 / 0.85); /* semi-transparent white */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid #ffe082;
+}
+
+.profile-avatar {
+  font-size: 6rem;
+  margin-bottom: 0.5rem;
+  color: #6a1b9a;
+}
+
+.profile-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile-role {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.profile-email {
+  font-size: 1rem;
+  color: #555;
+}
+
+.profile-content {
+  flex: 2;
+  padding: 2rem 3rem;
+  background-color: rgba(255 255 255 / 0.95); /* slightly transparent white */
+  border-radius: 0 12px 12px 0;
+}
+
+.profile-content h2 {
+  margin-bottom: 1.5rem;
+}
+
+.profile-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.profile-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.profile-form input:focus {
+  border-color: #6a1b9a;
+  outline: none;
+}
+
+.profile-form input[disabled] {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.profile-form button {
+  margin-top: 2rem;
+  background-color: #6a1b9a;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.profile-form button:hover {
+  background-color: #4a148c;
+}
+
+.message-text {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #33691e;
+}
+
+.loading-text {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  color: #666;
+}

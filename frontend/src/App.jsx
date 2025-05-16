@@ -3,6 +3,7 @@ import WelcomePage from './WelcomePage';
 import EventsPage from './EventsPage';  // Import the new page
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
+import UserProfile from './UserProfile'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/events" element={<EventsPage />} />   {/* New route */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/userprofile" element={<UserProfile />} />
       </Routes>
     </Router>
   );

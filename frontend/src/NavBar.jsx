@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');  // Redirect after logout
+  };
 
   return (
     <nav style={{
@@ -26,7 +34,7 @@ export default function Navbar() {
           <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>TicketMaster</Link>
         </div>
 
-        {/* Hamburger icon */}
+        {/* Hamburger icon (optional, keep your previous style) */}
         <div
           onClick={toggleMenu}
           style={{
@@ -47,21 +55,44 @@ export default function Navbar() {
           <div style={{ width: 25, height: 3, backgroundColor: 'white' }}></div>
         </div>
 
-        {/* Menu links - hidden on small screens, shown on large screens */}
+        {/* Menu links */}
         <div
           style={{
             display: 'flex',
             gap: '1rem',
+            alignItems: 'center',
           }}
           className="nav-links"
         >
           <Link to="/events" style={{ color: 'white', textDecoration: 'none' }}>Events</Link>
-          <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
-          <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>Sign Up</Link>
+
+          {!user ? (
+            <>
+              <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
+              <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>Sign Up</Link>
+            </>
+          ) : (
+            <>
+              <span style={{ marginRight: 10 }}>Hello, {user.name}</span>
+              <Link to="/userprofile" style={{ color: 'white', textDecoration: 'none' }}>Profile</Link>
+              <button
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                }}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Dropdown menu for small screens */}
+      {/* Dropdown menu for small screens (if you want to keep it) */}
       {menuOpen && (
         <div
           style={{
@@ -81,20 +112,51 @@ export default function Navbar() {
           >
             Events
           </Link>
-          <Link
-            to="/login"
-            style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
+          {!user ? (
+            <>
+              <Link
+                to="/login"
+                style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/userprofile"
+                style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Profile
+              </Link>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  padding: 0,
+                  textAlign: 'left',
+                }}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       )}
 
