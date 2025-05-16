@@ -40,7 +40,7 @@ export default function EventsPage() {
               color: '#000',
               borderRadius: 8,
               padding: 16,
-              boxShadow: '0 0 8px rgba(0,0,0,0.2)',
+              boxShadow: '0 0 8px rgba(77, 5, 84, 0.2)',
               cursor: 'pointer',
               transition: 'transform 0.2s',
             }}

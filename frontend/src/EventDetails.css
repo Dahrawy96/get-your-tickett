@@ -2,10 +2,11 @@
   max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.785);
   border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(206, 15, 171, 0.251);
   font-family: 'Segoe UI', sans-serif;
+  font-size: 1.3rem;
 }
 
 .booking-box {
@@ -57,4 +58,13 @@
   font-size: 1.2rem;
   color: #6a1b9a;
 }
+.event-details-container{
+  color:#1f1b1a
+
+  
+
+}
+
+
+
 

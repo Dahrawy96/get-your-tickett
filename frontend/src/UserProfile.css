@@ -29,7 +29,7 @@
 .profile-avatar {
   font-size: 6rem;
   margin-bottom: 0.5rem;
-  color: #6a1b9a;
+  color: #1a092a;
 }
 
 .profile-name {
@@ -76,7 +76,7 @@
 }
 
 .profile-form input:focus {
-  border-color: #6a1b9a;
+  border-color: #c4ba00;
   outline: none;
 }
 
@@ -88,7 +88,7 @@
 
 .profile-form button {
   margin-top: 2rem;
-  background-color: #6a1b9a;
+  background-color: #d4ce0f;
   border: none;
   padding: 12px 20px;
   font-size: 1.1rem;
@@ -100,7 +100,7 @@
 }
 
 .profile-form button:hover {
-  background-color: #4a148c;
+  background-color: #e9ce06;
 }
 
 .message-text {
@@ -122,7 +122,7 @@
   padding: 12px 30px;
   font-size: 1.1rem;
   font-weight: bold;
-  background-color: #6a1b9a;
+  background-color: #cbe00b;
   color: white;
   border: none;
   border-radius: 8px;
@@ -133,5 +133,5 @@
 }
 
 .my-bookings-button:hover {
-  background-color: #4a148c;
+  background-color: #8c8814;
 }
