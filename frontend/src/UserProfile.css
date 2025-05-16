@@ -10,7 +10,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
   overflow: hidden;
-
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -115,4 +114,24 @@
   margin-top: 3rem;
   font-size: 1.2rem;
   color: #666;
+}
+
+.my-bookings-button {
+  display: block;
+  margin: 3rem auto 0 auto; /* pushes it lower and centers it */
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #6a1b9a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 60%; /* wider */
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.my-bookings-button:hover {
+  background-color: #4a148c;
 }

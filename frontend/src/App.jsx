@@ -4,6 +4,8 @@ import EventsPage from './EventsPage';  // Import the new page
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import UserProfile from './UserProfile'
+import MyBookings from './MyBookings';
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/userprofile" element={<UserProfile />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
       </Routes>
     </Router>
   );

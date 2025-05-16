@@ -4,12 +4,12 @@ import { AuthContext } from './AuthContext';
 import Navbar from './NavBar';
 import './UserProfile.css';
 import ticketphoto from './assets/ticketphoto.jpeg';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserProfile() {
   const { user, token, login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // SidebarData now just uses user from context, no local state needed
-  // But keep local formData for controlled inputs
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,10 +44,7 @@ export default function UserProfile() {
       });
 
       const updatedUser = res.data.user;
-
-      // Update context user info so Navbar and sidebar update
-      login(updatedUser, token);
-
+      login(updatedUser, token); // Update context user info so Navbar and sidebar update
       setMessage('Profile updated successfully!');
     } catch (err) {
       setMessage(err.response?.data?.message || 'Failed to update profile.');
@@ -76,7 +73,7 @@ export default function UserProfile() {
           <p className="profile-email">{user?.email || '(No email)'}</p>
         </div>
 
-        {/* Form uses local formData for editing */}
+        {/* Profile content */}
         <div className="profile-content">
           <h2>Edit Profile</h2>
           <form onSubmit={handleSubmit} className="profile-form">
@@ -107,6 +104,29 @@ export default function UserProfile() {
             <button type="submit">Update Profile</button>
           </form>
           {message && <p className="message-text">{message}</p>}
+
+          {/* My Bookings Button */}
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <button
+              className="my-bookings-button"
+              onClick={() => navigate('/my-bookings')}
+              style={{
+                padding: '12px 24px',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                backgroundColor: '#6a1b9a',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseOver={e => e.currentTarget.style.backgroundColor = '#4a148c'}
+              onMouseOut={e => e.currentTarget.style.backgroundColor = '#6a1b9a'}
+            >
+              My Bookings
+            </button>
+          </div>
         </div>
       </div>
     </>

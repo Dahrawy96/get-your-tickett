@@ -81,6 +81,8 @@ const getMyBookings = async (req, res) => {
     res.status(500).json({ message: 'Error retrieving bookings', error: error.message });
   }
 };
+
+
 // Get booking details by ID (for the logged-in user)
 const getBookingById = async (req, res) => {
   const errors = validationResult(req);
