@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import api from './api';
 import { AuthContext } from './AuthContext';
 import Navbar from './NavBar';
@@ -6,54 +6,34 @@ import './UserProfile.css';
 import ticketphoto from './assets/ticketphoto.jpeg';
 
 export default function UserProfile() {
-  const { token, login } = useContext(AuthContext);
+  const { user, token, login } = useContext(AuthContext);
 
-  // This holds the sidebar user info shown at all times
-  const [sidebarData, setSidebarData] = useState({ name: '', email: '', role: '' });
-
-  // This holds the editable form inputs, start empty
-  const [formData, setFormData] = useState({ name: '', email: '', role: '' });
+  // SidebarData now just uses user from context, no local state needed
+  // But keep local formData for controlled inputs
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+  });
 
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // On mount, fetch user profile and fill sidebar ONLY
+  // Prefill formData with user info on mount or when user changes
   useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const res = await api.get('/users/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const user = res.data.user;
-        console.log(user)
-
-        // Set sidebarData from backend immediately (shows current user info)
-        setSidebarData({
-          name: user.name || '',
-          email: user.email || '',
-          role: user.role || '',
-        });
-
-        // Leave formData empty initially so inputs are blank
-        setFormData({ name: '', email: '', role: user.role || '' });
-
-        setLoading(false);
-      } catch (error) {
-        setMessage('Failed to load profile.');
-        setLoading(false);
-      }
+    if (user) {
+      setFormData({
+        name: user.name || '',
+        email: user.email || '',
+      });
+      setLoading(false);
     }
-    if (token) fetchProfile();
-  }, [token]);
+  }, [user]);
 
-  // Handle input changes in form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // On update, send formData, then update sidebarData with response
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -65,17 +45,7 @@ export default function UserProfile() {
 
       const updatedUser = res.data.user;
 
-      // Update sidebar to reflect new info
-      setSidebarData({
-        name: updatedUser.name,
-        email: updatedUser.email,
-        role: updatedUser.role,
-      });
-
-      // Clear form inputs (optional) or keep as updated
-      setFormData({ name: '', email: '', role: updatedUser.role });
-
-      // Update context user info
+      // Update context user info so Navbar and sidebar update
       login(updatedUser, token);
 
       setMessage('Profile updated successfully!');
@@ -98,15 +68,15 @@ export default function UserProfile() {
         className="profile-page-container"
         style={{ backgroundImage: `url(${ticketphoto})` }}
       >
-        {/* Sidebar shows current user info */}
+        {/* Sidebar shows current user info from context */}
         <div className="profile-sidebar">
           <div className="profile-avatar">&#128100;</div>
-          <h2 className="profile-name">{sidebarData.name }</h2>
-          <p className="profile-role"><strong>Role:</strong> {sidebarData.role}</p>
-          <p className="profile-email">{sidebarData.email}</p>
+          <h2 className="profile-name">{user?.name || 'User'}</h2>
+          <p className="profile-role"><strong>Role:</strong> {user?.role || 'N/A'}</p>
+          <p className="profile-email">{user?.email || '(No email)'}</p>
         </div>
 
-        {/* Form is separate and initially empty */}
+        {/* Form uses local formData for editing */}
         <div className="profile-content">
           <h2>Edit Profile</h2>
           <form onSubmit={handleSubmit} className="profile-form">
@@ -116,7 +86,7 @@ export default function UserProfile() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder={sidebarData.name || 'Enter your name'}
+              placeholder="Enter your name"
               required
             />
             <label>Email</label>
@@ -125,13 +95,13 @@ export default function UserProfile() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={sidebarData.email || 'Enter your email'}
+              placeholder="Enter your email"
               required
             />
             <label>Role</label>
             <input
               type="text"
-              value={sidebarData.role}
+              value={user?.role || 'N/A'}
               disabled
             />
             <button type="submit">Update Profile</button>

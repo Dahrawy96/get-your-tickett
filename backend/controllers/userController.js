@@ -110,10 +110,10 @@ const getAllUsers = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     // Use the user ID from the JWT token, set by verifyToken middleware
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.params.id).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    res.status(200).json({ user });  // Return user inside an object as { user: {...} }
+    res.status(200).json(user);  // Return user inside an object as { user: {...} }
   } catch (err) {
     res.status(500).json({ message: 'Error retrieving user profile', error: err.message });
   }
@@ -162,7 +162,7 @@ module.exports = {
   loginUser,
   forgetPassword,
   getAllUsers,
-  getUser,
+  getUserProfile,
   updateUser,
   deleteUser
 };

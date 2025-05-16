@@ -7,7 +7,7 @@ const {
   loginUser,
   forgetPassword,
   getAllUsers,
-  getUser,
+  getUserProfile,
   updateUser,
   deleteUser
 } = require('../controllers/userController');
@@ -52,7 +52,7 @@ router.get('/users/profile', verifyToken, (req, res) => res.status(200).json({ u
 router.put('/users/profile', verifyToken, updateUser);
 
 // Get a user by ID
-router.get('/users/:id', verifyToken, authorizeRoles('admin', 'user', 'organizer'), getUser);
+router.get('/users/:id', verifyToken, authorizeRoles('admin', 'user', 'organizer'), getUserProfile);
 
 // Update a user by ID
 router.put('/users/:id', verifyToken, authorizeRoles('admin', 'user', 'organizer'), updateUser);
