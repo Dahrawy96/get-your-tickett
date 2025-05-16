@@ -107,28 +107,34 @@ export default function UserProfile() {
 
           {/* My Bookings Button */}
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <button
-              className="my-bookings-button"
-              onClick={() => navigate('/my-bookings')}
-              style={{
+           {user?.role === 'user' && (
+         <button
+          className="my-bookings-button"
+          onClick={() => navigate('/my-bookings')}
+          style={{
                 padding: '12px 24px',
                 fontSize: '1.1rem',
                 fontWeight: '600',
-                backgroundColor: '#6a1b9a',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s ease',
-              }}
-              onMouseOver={e => e.currentTarget.style.backgroundColor = '#4a148c'}
-              onMouseOut={e => e.currentTarget.style.backgroundColor = '#6a1b9a'}
-            >
-              My Bookings
-            </button>
+               backgroundColor: '#6a1b9a',
+               color: 'white',
+               border: 'none',
+               borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s ease',
+    }}
+      
+    
+    onMouseOver={e => e.currentTarget.style.backgroundColor = '#4a148c'}
+    onMouseOut={e => e.currentTarget.style.backgroundColor = '#6a1b9a'}
+  >
+    My Bookings
+  </button>
+)}
+
           </div>
         </div>
       </div>
     </>
   );
 }
+

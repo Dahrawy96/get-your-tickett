@@ -58,8 +58,7 @@ export default function MyBookings() {
     <>
       <Navbar />
       <div className="my-bookings-container">
-        <h2>My Bookings</h2>
-
+        <h1 className="my-bookings-heading">My Bookings</h1>
         {/* Search Bar for filtering bookings */}
         <input
           type="text"
@@ -86,26 +85,24 @@ export default function MyBookings() {
 
         {/* List of bookings */}
         <ul className="booking-list">
-          {filteredBookings.map(booking => (
-            <li key={booking._id} className="booking-item">
-              <div>
-                <strong>{booking.event?.title || 'Unknown Event'}</strong><br />
-                Quantity: {booking.quantity} | Total Price: ${booking.totalPrice?.toFixed(2)}
-              </div>
+  {filteredBookings.map(booking => (
+    <li key={booking._id} className="booking-item">
+      <div>
+        <strong>{booking.event?.title || 'Unknown Event'}</strong><br />
+        Quantity: {booking.quantity}<br />
+        Total Price: ${booking.totalPrice}
+      </div>
 
+      <button
+        className="cancel-button"
+        onClick={() => cancelBooking(booking._id)}
+      >
+        Cancel Booking
+      </button>
+    </li>
+  ))}
+</ul>
 
-              {/* Cancel booking button */}
-              {booking.status === 'Confirmed' && (
-                <button
-                  className="cancel-button"
-                  onClick={() => cancelBooking(booking._id)}
-                >
-                  Cancel
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
       </div>
     </>
   );
