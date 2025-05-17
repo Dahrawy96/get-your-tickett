@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   // user: { id, name, email, role }
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); // To handle initial load
+  const [loading, setLoading] =  useState(true); // To handle initial load
 
   // On mount, load user and token from localStorage if available
   useEffect(() => {
