@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WelcomePage from './WelcomePage';
-import EventsPage from './EventsPage';  // Import the new page
+import EventsPage from './EventsPage';
+import EventDetails from './EventDetails';
+import CreateEvent from './CreateEvent';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
-import UserProfile from './UserProfile'
+import UserProfile from './UserProfile';
 import MyBookings from './MyBookings';
-import EventDetails from './EventDetails';
+import EditEvent from './EditEvent';  // Import your new component
 
 
 function App() {
@@ -13,13 +15,14 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/events" element={<EventsPage />} />   {/* New route */}
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/events/:id" element={<EventDetails />} />
+        <Route path="/create-event" element={<CreateEvent />} />  {/* new */}
+        <Route path="/edit-event/:id" element={<EditEvent />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/my-bookings" element={<MyBookings />} />
-        <Route path="/events/:id" element={<EventDetails />} />
-
       </Routes>
     </Router>
   );

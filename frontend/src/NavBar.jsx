@@ -34,7 +34,7 @@ export default function Navbar() {
           <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>TicketMaster</Link>
         </div>
 
-        {/* Hamburger icon (optional, keep your previous style) */}
+        {/* Hamburger icon (optional) */}
         <div
           onClick={toggleMenu}
           style={{
@@ -66,6 +66,13 @@ export default function Navbar() {
         >
           <Link to="/events" style={{ color: 'white', textDecoration: 'none' }}>Events</Link>
 
+          {/* Create Event button only for organizer */}
+          {user?.role === 'organizer' && (
+            <Link to="/create-event" style={{ color: 'white', textDecoration: 'none' }}>
+              Create Event
+            </Link>
+          )}
+
           {!user ? (
             <>
               <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
@@ -73,7 +80,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span style={{ marginRight: 10 }}>Hello, {user.name}</span>
+              <span style={{ marginRight: 12 }}>Hello, {user.name}</span>
               <Link to="/userprofile" style={{ color: 'white', textDecoration: 'none' }}>Profile</Link>
               <button
                 onClick={handleLogout}
@@ -82,6 +89,7 @@ export default function Navbar() {
                   border: 'none',
                   color: 'white',
                   cursor: 'pointer',
+                  textDecoration: 'none',
                   fontWeight: 'bold',
                 }}
               >
@@ -92,7 +100,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Dropdown menu for small screens (if you want to keep it) */}
+      {/* Dropdown menu for small screens */}
       {menuOpen && (
         <div
           style={{
@@ -112,6 +120,15 @@ export default function Navbar() {
           >
             Events
           </Link>
+          {user?.role === 'organizer' && (
+            <Link
+              to="/create-event"
+              style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Create Event
+            </Link>
+          )}
           {!user ? (
             <>
               <Link
@@ -162,7 +179,6 @@ export default function Navbar() {
 
       {/* CSS for responsiveness */}
       <style>{`
-        /* Show hamburger on screens smaller than 600px */
         @media (max-width: 600px) {
           .hamburger {
             display: flex !important;

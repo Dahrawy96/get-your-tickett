@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Navbar from './NavBar';
 import api from './api';  // Axios instance
 import ticketphoto from './assets/ticketphoto.jpeg';  // Your background image
 import Footer from './Footer';  // Import Footer here
+import { AuthContext } from './AuthContext';
 
 export default function WelcomePage() {
+  const { user, token } = useContext(AuthContext);
   const [events, setEvents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
@@ -13,18 +15,31 @@ export default function WelcomePage() {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const res = await api.get('/events');  // Adjust endpoint if needed
-        setEvents(res.data);
+        let res;
+
+        if (user?.role === 'organizer') {
+          // Fetch only organizer's events with auth token
+          res = await api.get('/users/events', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setEvents(res.data);  // Assuming res.data is array of events
+        } else {
+          // Fetch all approved events for others / public
+          res = await api.get('/events');
+          setEvents(res.data);
+        }
+
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch events');
         setLoading(false);
       }
     }
-    fetchEvents();
-  }, []);
 
-  // Filter events by name or location based on search
+    fetchEvents();
+  }, [user, token]);
+
+  // Filter events by title or location based on search term
   const filteredEvents = events.filter(event =>
     event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     event.location.toLowerCase().includes(searchTerm.toLowerCase())
@@ -110,17 +125,25 @@ export default function WelcomePage() {
           {filteredEvents.length === 0 && !loading && <p>No events found.</p>}
 
           {filteredEvents.map(event => (
-            <div key={event._id} style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              color: '#ffffff',
-              borderRadius: '8px',
-              padding: '1rem',
-              boxShadow: 'rgba(0,0,0,0.3)',
-              cursor: 'pointer',
-              transition: 'transform 0.2s',
-              textAlign: 'center',
-            }}
-              onClick={() => window.location.href = `/events/${event._id}`}
+            <div
+              key={event._id}
+              style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                color: '#ffffff',
+                borderRadius: '8px',
+                padding: '1rem',
+                boxShadow: 'rgba(0,0,0,0.3)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s',
+                textAlign: 'center',
+              }}
+              onClick={() => {
+                if (user?.role === 'organizer') {
+                  window.location.href = `/edit-event/${event._id}`;
+                } else {
+                  window.location.href = `/events/${event._id}`;
+                }
+              }}
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
@@ -129,11 +152,13 @@ export default function WelcomePage() {
               <p>{event.location}</p>
               <p>Price: ${event.ticketPrice}</p>
               <p>Remaining Tickets: {event.remainingTickets}</p>
+              {user?.role === 'organizer' && (
+                <p><strong>Status:</strong> {event.status}</p>
+              )}
             </div>
           ))}
         </div>
 
-        {/* Footer added here */}
         <Footer />
       </div>
     </div>
