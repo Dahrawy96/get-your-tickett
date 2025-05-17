@@ -1,0 +1,153 @@
+[33mcommit 8e241413b310f1b83ce27d24651f3ccf7ef472f3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: e00e67e 31918bb
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Sat May 17 02:04:28 2025 +0300
+
+    Merge branch 'main' of https://github.com/Dahrawy96/get-your-ticket
+
+[33mcommit e00e67ef5eeb2fe2e8829181598c5d0c6a9a5ebc[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Sat May 17 02:04:22 2025 +0300
+
+    frontend 7th push
+
+[33mcommit 31918bb4eacdfe94d9061225c0e7637d963332de[m
+Merge: 6d721f3 b1b4685
+Author: Farah Abed <dahrawy96@gmail.com>
+Date:   Fri May 16 18:55:26 2025 +0300
+
+    events oart done
+
+[33mcommit 6d721f357270b074b2e47170ac74d6c7f4e8ce30[m
+Author: Farah Abed <dahrawy96@gmail.com>
+Date:   Fri May 16 18:46:16 2025 +0300
+
+    events part done
+
+[33mcommit b1b4685ee9f662013db95771f30872f97951ab8d[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Fri May 16 15:42:19 2025 +0300
+
+    frontend 5th push!
+
+[33mcommit 8ba1dff597ef7ab97a463a1775204f2ae0ce5f74[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Fri May 16 04:47:39 2025 +0300
+
+    frontend 4th push
+
+[33mcommit 03ad0d2db5576bfa7a3e342c6bb09d2c5f5fa178[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Fri May 16 03:58:45 2025 +0300
+
+    frontend push 3
+
+[33mcommit 2bff27eeaaa4fe95a9f74ce1034f17d499569756[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Fri May 16 03:23:08 2025 +0300
+
+    second frontend commit
+
+[33mcommit 8feadf9118dfc7bec1598be7ac1d831a14e18266[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Thu May 15 16:46:21 2025 +0300
+
+    first frontend push
+
+[33mcommit fcd6b59ca83b5a3d131cbb99e70c06f16ee6972b[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Thu May 15 05:13:25 2025 +0300
+
+    added frontend to project root
+
+[33mcommit f98b24afa097d1f351c1e184c21193faf91f5c22[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Thu May 15 05:04:50 2025 +0300
+
+    changed file structure
+
+[33mcommit 58c655896899cc96d0ea0c39ae8c6a2116e275d4[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Apr 21 14:26:32 2025 +0200
+
+    last final push
+
+[33mcommit 5e46a73d9fcbd77cc42dd68814685959f8bf98c7[m
+Merge: 2a59f0e 316a0bd
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Apr 21 14:22:16 2025 +0200
+
+    donee
+
+[33mcommit 316a0bd2a0d064269371bb7f654ad622ed2af8e5[m[33m ([m[1;31morigin/dahrawy[m[33m)[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Apr 21 14:16:12 2025 +0200
+
+    last push
+
+[33mcommit 2a59f0eec1eff4a04ae147f6072c4bd0f9979434[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Tue Apr 15 15:33:14 2025 +0200
+
+    newest codeeee
+
+[33mcommit 526b77c20188fa86c528d74f6aeed90881292445[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Tue Apr 15 15:30:55 2025 +0200
+
+    akher haga
+
+[33mcommit af317bd626d3e63d03f4af83e10c3a4eb18dcaf8[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Sat Apr 12 22:10:12 2025 +0200
+
+    codeee complete user part
+
+[33mcommit b01c7637e8bf7db9d0555093605095043e6165ca[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Sat Apr 12 20:51:03 2025 +0200
+
+    codeeee farah arafa
+
+[33mcommit 56cdacf930f5bceb14253d6148005e57e3983eb5[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Tue Mar 4 22:07:46 2025 +0200
+
+    Added Event schema for the database
+
+[33mcommit 1921568c931a4917dd1e7796a484b0503f20f907[m
+Merge: 3ce3791 c796542
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Tue Mar 4 22:04:35 2025 +0200
+
+    models file
+
+[33mcommit c7965421ed01a94f40009fe999cb1488a1179e8b[m
+Author: faraharafa11 <faraharafa111@gmail.com>
+Date:   Tue Mar 4 01:14:46 2025 +0200
+
+    Added User model and schema ; faraharafa
+
+[33mcommit ebe30285261ba787610a700978722d3ab4012301[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Mar 3 23:26:25 2025 +0200
+
+    Added README.md file with project description
+
+[33mcommit dc0df8f17c32651fc548ece5a35bd911bff79778[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Mar 3 23:20:23 2025 +0200
+
+    Added .gitignore file to exclude unnecessary files
+
+[33mcommit 3ce37914ea1c6a4653b6914653c42360cdf2c3c7[m
+Author: Dahrawy96 <seifsherif163@gmail.com>
+Date:   Mon Mar 3 23:11:27 2025 +0200
+
+    Added .gitignore file to exclude unnecessary files
+
+[33mcommit 1794a5bf3dd169588b117d484d2ab3ad534a277d[m
+Author: Dahrawy <seifsherif163@gmail.com>
+Date:   Mon Mar 3 22:48:58 2025 +0200
+
+    Initial commit
