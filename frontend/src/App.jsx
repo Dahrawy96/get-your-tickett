@@ -8,6 +8,8 @@ import SignupPage from './SignupPage';
 import UserProfile from './UserProfile';
 import MyBookings from './MyBookings';
 import EditEvent from './EditEvent';  // Import your new component
+import AdminUsersPage from './AdminUsersPage';
+import AdminEventsPage from './AdminEventsPage';
 
 
 function App() {
@@ -23,6 +25,9 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/events" element={<AdminEventsPage />} />
+
       </Routes>
     </Router>
   );

@@ -34,7 +34,6 @@ export default function Navbar() {
           <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>TicketMaster</Link>
         </div>
 
-        {/* Hamburger icon (optional) */}
         <div
           onClick={toggleMenu}
           style={{
@@ -55,7 +54,6 @@ export default function Navbar() {
           <div style={{ width: 25, height: 3, backgroundColor: 'white' }}></div>
         </div>
 
-        {/* Menu links */}
         <div
           style={{
             display: 'flex',
@@ -64,12 +62,24 @@ export default function Navbar() {
           }}
           className="nav-links"
         >
-          <Link to="/events" style={{ color: 'white', textDecoration: 'none' }}>Events</Link>
+          {/* Events link: admin goes to /admin/events, organizer and users to /events */}
+          {user?.role === 'admin' ? (
+            <Link to="/admin/events" style={{ color: 'white', textDecoration: 'none' }}>Events</Link>
+          ) : (
+            <Link to="/events" style={{ color: 'white', textDecoration: 'none' }}>Events</Link>
+          )}
 
           {/* Create Event button only for organizer */}
           {user?.role === 'organizer' && (
             <Link to="/create-event" style={{ color: 'white', textDecoration: 'none' }}>
               Create Event
+            </Link>
+          )}
+
+          {/* Users button only for admin */}
+          {user?.role === 'admin' && (
+            <Link to="/admin/users" style={{ color: 'white', textDecoration: 'none' }}>
+              Users
             </Link>
           )}
 
@@ -100,7 +110,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Dropdown menu for small screens */}
       {menuOpen && (
         <div
           style={{
@@ -113,13 +122,24 @@ export default function Navbar() {
           }}
           className="dropdown-menu"
         >
-          <Link
-            to="/events"
-            style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Events
-          </Link>
+          {user?.role === 'admin' ? (
+            <Link
+              to="/admin/events"
+              style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Events
+            </Link>
+          ) : (
+            <Link
+              to="/events"
+              style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Events
+            </Link>
+          )}
+
           {user?.role === 'organizer' && (
             <Link
               to="/create-event"
@@ -129,6 +149,17 @@ export default function Navbar() {
               Create Event
             </Link>
           )}
+
+          {user?.role === 'admin' && (
+            <Link
+              to="/admin/users"
+              style={{ color: 'white', textDecoration: 'none', padding: '0.5rem 0' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              Users
+            </Link>
+          )}
+
           {!user ? (
             <>
               <Link
@@ -177,7 +208,6 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* CSS for responsiveness */}
       <style>{`
         @media (max-width: 600px) {
           .hamburger {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import api from './api';
 import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -8,109 +8,130 @@ export default function EventsPage() {
   const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [actionMessage, setActionMessage] = useState('');
 
   useEffect(() => {
     async function fetchEvents() {
       try {
         let res;
-        if (user?.role === 'organizer') {
-          // Fetch organizer's events only
+        if (user?.role === 'admin') {
+          // Admin fetches all events
+          res = await api.get('/events/all', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        } else if (user?.role === 'organizer') {
+          // Organizer fetches only their events
           res = await api.get('/users/events', {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setEvents(res.data); // Assuming backend returns array directly
         } else {
-          // Fetch all approved events for other roles
+          // Regular users see only approved events
           res = await api.get('/events');
-          setEvents(res.data);
         }
+
+        setEvents(res.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch events');
+        setError('Failed to load events.');
         setLoading(false);
       }
     }
     fetchEvents();
   }, [user, token]);
 
-  // Filter events by title or location
-  const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    event.location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const updateStatus = async (eventId, newStatus) => {
+    try {
+      await api.patch(
+        `/events/${eventId}/status`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setActionMessage(`Event ${newStatus} successfully.`);
+      setEvents(events.map(ev => (ev._id === eventId ? { ...ev, status: newStatus } : ev)));
+    } catch {
+      setActionMessage('Failed to update status.');
+    }
+  };
+
+  const deleteEvent = async (eventId) => {
+    if (!window.confirm('Are you sure you want to delete this event?')) return;
+
+    try {
+      await api.delete(`/events/${eventId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setActionMessage('Event deleted successfully.');
+      setEvents(events.filter(ev => ev._id !== eventId));
+    } catch {
+      setActionMessage('Failed to delete event.');
+    }
+  };
+
+  if (loading) return <p>Loading events...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 1200, margin: 'auto' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-        {user?.role === 'organizer' ? 'My Events' : 'Events'}
-      </h1>
+    <div style={{ maxWidth: 900, margin: 'auto', padding: 20 }}>
+      <h1>Events Management</h1>
+      {actionMessage && <p>{actionMessage}</p>}
 
-      <input
-        type="text"
-        placeholder="Search events by name or location..."
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        style={{
-          width: '100%',
-          padding: '0.75rem',
-          fontSize: '1rem',
-          borderRadius: '8px',
-          border: '1px solid #ccc',
-          marginBottom: '1.5rem',
-        }}
-      />
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr style={{ borderBottom: '2px solid #ccc' }}>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {events.length === 0 && (
+            <tr>
+              <td colSpan={5} style={{ textAlign: 'center' }}>No events found.</td>
+            </tr>
+          )}
+          {events.map(event => (
+            <tr key={event._id} style={{ borderBottom: '1px solid #eee' }}>
+              <td>{event.title}</td>
+              <td>{new Date(event.date).toLocaleDateString()}</td>
+              <td>{event.location}</td>
+              <td>{event.status || 'N/A'}</td>
+              <td>
+                {(user?.role === 'admin' && event.status === 'pending') && (
+                  <>
+                    <button onClick={() => updateStatus(event._id, 'approved')} style={{ marginRight: 5 }}>
+                      Approve
+                    </button>
+                    <button onClick={() => updateStatus(event._id, 'declined')} style={{ marginRight: 5 }}>
+                      Reject
+                    </button>
+                  </>
+                )}
 
-      {loading && <p>Loading events...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))',
-          gap: '1.5rem',
-        }}
-      >
-        {filteredEvents.length === 0 && !loading && <p>No events found.</p>}
-
-        {filteredEvents.map(event => (
-          <div
-            key={event._id}
-            style={{
-              backgroundColor: '#f0f0f0',
-              padding: '1rem',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-              textAlign: 'center',
-              position: 'relative',
-            }}
-            onClick={() => {
-              if (
-                user?.role === 'organizer' &&
-                (event.organizer === user.id || event.organizer === user._id)
-              ) {
-                navigate(`/edit-event/${event._id}`);
-              } else {
-                navigate(`/events/${event._id}`);
-              }
-            }}
-          >
-            <h3>{event.title}</h3>
-            <p>{new Date(event.date).toLocaleDateString()}</p>
-            <p>{event.location}</p>
-            <p>Price: ${event.ticketPrice}</p>
-            <p>Remaining Tickets: {event.remainingTickets}</p>
-            {user?.role === 'organizer' && (
-              <p>
-                <strong>Status:</strong> {event.status}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
+                {(user?.role === 'organizer' || user?.role === 'admin') && (
+                  <>
+                    <button
+                      onClick={() => navigate(`/edit-event/${event._id}`)}
+                      style={{ marginRight: 5 }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => deleteEvent(event._id)}
+                      style={{ backgroundColor: 'red', color: 'white' }}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

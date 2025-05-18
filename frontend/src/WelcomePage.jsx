@@ -17,25 +17,27 @@ export default function WelcomePage() {
       try {
         let res;
 
-        if (user?.role === 'organizer') {
-          // Fetch only organizer's events with auth token
+        if (user?.role === 'admin') {
+          // Admin sees all events with status
+          res = await api.get('/events/all', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+        } else if (user?.role === 'organizer') {
+          // Organizer sees their own events with status
           res = await api.get('/users/events', {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setEvents(res.data);  // Assuming res.data is array of events
         } else {
-          // Fetch all approved events for others / public
+          // Normal users/public see only approved events, no status shown
           res = await api.get('/events');
-          setEvents(res.data);
         }
-
+        setEvents(res.data);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch events');
         setLoading(false);
       }
     }
-
     fetchEvents();
   }, [user, token]);
 
@@ -138,10 +140,12 @@ export default function WelcomePage() {
                 textAlign: 'center',
               }}
               onClick={() => {
-                if (user?.role === 'organizer') {
+                if (user?.role === 'organizer' ) {
                   window.location.href = `/edit-event/${event._id}`;
+                } else if(user?.role === 'admin') {
+                  window.location.href = `/events`;
                 } else {
-                  window.location.href = `/events/${event._id}`;
+                window.location.href =`/events/${event._id}`;
                 }
               }}
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
@@ -152,7 +156,7 @@ export default function WelcomePage() {
               <p>{event.location}</p>
               <p>Price: ${event.ticketPrice}</p>
               <p>Remaining Tickets: {event.remainingTickets}</p>
-              {user?.role === 'organizer' && (
+              {(user?.role === 'organizer' || user?.role === 'admin') && (
                 <p><strong>Status:</strong> {event.status}</p>
               )}
             </div>
