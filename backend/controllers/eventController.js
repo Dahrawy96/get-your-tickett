@@ -36,6 +36,7 @@ exports.createEvent = async (req, res) => {
     });
     
 
+
     await event.save();
     res.status(201).json({ message: 'Event created and pending approval', event });
   } catch (err) {
