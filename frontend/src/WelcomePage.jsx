@@ -143,7 +143,7 @@ export default function WelcomePage() {
                 if (user?.role === 'organizer' ) {
                   window.location.href = `/edit-event/${event._id}`;
                 } else if(user?.role === 'admin') {
-                  window.location.href = `/events`;
+                  window.location.href = `/admin/events`;
                 } else {
                 window.location.href =`/events/${event._id}`;
                 }

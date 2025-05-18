@@ -2,19 +2,21 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from './api';
 import { AuthContext } from './AuthContext';
+import './CreateEvent.css';
+
 
 export default function CreateEvent() {
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    location: '',
-    category: '',
-    ticketPrice: '',
-    totalTickets: '',
+    Title: '',
+    Description: '',
+    Date: '',
+    Location: '',
+    Category: '',
+    TicketPrice: '',
+    TotalTickets: '',
   });
 
   const [message, setMessage] = useState('');

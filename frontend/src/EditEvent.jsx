@@ -3,6 +3,8 @@ import api from './api';
 import { AuthContext } from './AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import EventAnalyticsModal from './EventAnalyticsModal'; // Import the modal component
+import './EditEvent.css';
+
 
 export default function EditEvent() {
   const { id } = useParams();
@@ -186,3 +188,5 @@ export default function EditEvent() {
     </>
   );
 }
+
+

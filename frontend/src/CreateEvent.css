@@ -1,0 +1,97 @@
+/* Container styling */
+.form-container {
+  max-width: 480px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 750;
+  color: #3817b1;
+  font-size: 28px;
+}
+
+/* Form layout */
+.event-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each label-input pair */
+.event-form > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+/* Labels */
+.event-form label {
+  font-weight: 600;
+  color: #4c4ce4;
+  font-size: 16px;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+/* Inputs */
+.event-form input {
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.8px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+  outline-offset: 2px;
+}
+
+/* Input focus style */
+.event-form input:focus {
+  border-color: #3b82f6; /* Blue */
+  outline: none;
+  box-shadow: 0 0 6px rgba(59,130,246,0.5);
+}
+
+/* Submit button */
+.event-form button[type="submit"] {
+  margin-top: 10px;
+  padding: 12px 0;
+  background-color: #2e1589;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.event-form button[type="submit"]:hover {
+  background-color: #2563eb;
+}
+
+/* Message styling */
+.form-container p {
+  margin-top: 15px;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+  .form-container {
+    margin: 20px 15px;
+    padding: 25px 20px;
+  }
+  .form-container h2 {
+    font-size: 24px;
+  }
+}

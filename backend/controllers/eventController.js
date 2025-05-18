@@ -34,6 +34,7 @@ exports.createEvent = async (req, res) => {
       organizer: req.user.id,
       status: 'pending',
     });
+    
 
     await event.save();
     res.status(201).json({ message: 'Event created and pending approval', event });

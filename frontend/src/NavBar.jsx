@@ -100,7 +100,8 @@ export default function Navbar() {
                   color: 'white',
                   cursor: 'pointer',
                   textDecoration: 'none',
-                  fontWeight: 'bold',
+                  fontWeight: 'normal',
+                  padding: '0.9rem' 
                 }}
               >
                 Logout

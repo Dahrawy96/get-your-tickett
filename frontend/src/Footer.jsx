@@ -12,7 +12,9 @@ export default function Footer() {
       <div style={{ maxWidth: 1200, margin: 'auto', display: 'flex', gap: '3rem', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 200px' }}>
           <h3>Contact</h3>
-          <p>Email: <a href="mailto:support@ticketmaster.com" style={{color: '#61dafb', textDecoration: 'none'}}>seif.eldahrawy@gmail.com</a></p>
+          
+          <p>Email: <a href="mailto:support@ticketmaster.com" style={{color: '#61dafb', textDecoration: 'none'}}>farah.arafa@gmail.com</a></p>
+
           <p>Phone: <a href="tel:+1234567890" style={{color: '#61dafb', textDecoration: 'none'}}>+201000090559</a></p>
         </div>
         <div style={{ flex: '2 1 400px' , fontSize: 15}}>

@@ -77,61 +77,33 @@ export default function EventsPage() {
       <h1>Events Management</h1>
       {actionMessage && <p>{actionMessage}</p>}
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ borderBottom: '2px solid #ccc' }}>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {events.length === 0 && (
-            <tr>
-              <td colSpan={5} style={{ textAlign: 'center' }}>No events found.</td>
-            </tr>
-          )}
-          {events.map(event => (
-            <tr key={event._id} style={{ borderBottom: '1px solid #eee' }}>
-              <td>{event.title}</td>
-              <td>{new Date(event.date).toLocaleDateString()}</td>
-              <td>{event.location}</td>
-              <td>{event.status || 'N/A'}</td>
-              <td>
-                {(user?.role === 'admin' && event.status === 'pending') && (
-                  <>
-                    <button onClick={() => updateStatus(event._id, 'approved')} style={{ marginRight: 5 }}>
-                      Approve
-                    </button>
-                    <button onClick={() => updateStatus(event._id, 'declined')} style={{ marginRight: 5 }}>
-                      Reject
-                    </button>
-                  </>
-                )}
+      <table className="table">
+  <thead>
+    <tr>
+      <th className="th">Title</th>
+      <th className="th">Date</th>
+      <th className="th">Location</th>
+      <th className="th">Status</th>
+      <th className="th">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {events.map(event => (
+    <tr key={event._id} className="tr-row">
+      <td className="td" data-label="Title"><span>{event.title}</span></td>
+      <td className="td" data-label="Date"><span>{new Date(event.date).toLocaleDateString()}</span></td>
+      <td className="td" data-label="Location"><span>{event.location}</span></td>
+      <td className={`td status status-${event.status}`} data-label="Status"><span>{event.status || 'N/A'}</span></td>
+      <td className="buttons-cell" data-label="Actions">
+        <button className="button button-edit" onClick={() => navigate(`/edit-event/${event._id}`)}>Edit</button>
+        <button className="button button-delete" onClick={() => deleteEvent(event._id)}>Delete</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
 
-                {(user?.role === 'organizer' || user?.role === 'admin') && (
-                  <>
-                    <button
-                      onClick={() => navigate(`/edit-event/${event._id}`)}
-                      style={{ marginRight: 5 }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteEvent(event._id)}
-                      style={{ backgroundColor: 'red', color: 'white' }}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+</table>
+
     </div>
   );
 }
